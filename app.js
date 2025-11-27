@@ -74,8 +74,12 @@ const camisetas = {
         },
         { nombre: "Barcelona 1999", img: "https://i.pinimg.com/originals/81/f0/6c/81f06c46154d0e57b80d63376717b230.jpg", dato: "Año mágico de Rivaldo" },
         { nombre: "Milan 2007", img: "https://media.gettyimages.com/id/525003090/es/foto/milan-italy-13-january-2008-ricardo-kaka-of-ac-milan-celebrates-during-the-serie-a-2007-2008.jpg?s=612x612&w=gi&k=20&c=IATNmuoCeOy6kiFJE20gciXi8krJ9PhYaDmxXRRQPpY=", dato: "Kaká lidera al Milan hacia el Scudetto" },
-        { nombre: "Juventus 1998", img: "https://upload.wikimedia.org/wikipedia/commons/f/fb/Juventus_FC_1998-99.png", dato: "Año de la histórica temporada de Del Piero" },
+        { nombre: "Santos 2011", img: "https://cdn.shopify.com/s/files/1/0892/1291/1932/files/Imagen_63.jpg?v=1746595458", dato: "Año de la histórica temporada de Del Piero" },
+        { nombre: "Manchester unite 1999 ", img: "https://television.com.ar/wp-content/uploads/2024/04/99-1.jpg", dato: "Año de la histórica temporada de Del Piero" },
+        { nombre: "Juventus 1998", img: "https://i.ytimg.com/vi/d8xUKzoIjEg/sddefault.jpg", dato: "Año de la histórica temporada de Del Piero" },
     ],
+    
+    
     
     actual: [
         {
@@ -91,7 +95,17 @@ const camisetas = {
         },
         {
             nombre: "Real Madrid 2025",
-            img: "https://assets.uefa.com/imgml/2025/real-madrid-jersey.jpg",
+            img: "https://platform.managingmadrid.com/wp-content/uploads/sites/103/chorus/uploads/chorus_asset/file/26019742/Sin_t_tulo_1.jpg?quality=90&strip=all&crop=16.908037653874,0,66.183924692252,100",
+            dato: "Inspirada en los años dorados de la Champions",
+        },
+        {
+            nombre: "Milan 2025",
+            img: "https://vstatic.vietnam.vn/vietnam/resource/IMAGE/2025/10/4/73c29e20c8a94f95a0f0c46f281f2d4d",
+            dato: "Inspirada en los años dorados de la Champions",
+        },
+        {
+            nombre: "Bayer munich 2025",
+            img: "https://img.fcbayern.com/image/upload/f_auto/q_auto/t_cms-1x1-seo/v1754152782/cms/public/images/fcbayern-com/homepage/Saison-25-26/Galerien/Spiele/fcb-lyon/21-fcbayern-lyon-250802-mel.jpg",
             dato: "Inspirada en los años dorados de la Champions",
         },
     ],
@@ -121,10 +135,10 @@ const ligas = {
 
 /* NUEVO CAMPO PARA LOGOS DE LIGAS */
 const logosLigas = {
-    inglesa: "https://logodownload.org/wp-content/uploads/2016/11/premier-league-logo-3.png",
-    espanola: "https://logodownload.org/wp-content/uploads/2013/12/la-liga-logo-1.png",
-    italiana: "https://logodownload.org/wp-content/uploads/2018/07/serie-a-logo.png",
-    alemana: "https://logodownload.org/wp-content/uploads/2017/03/bundesliga-logo.png",
+    inglesa: "https://static.vecteezy.com/system/resources/previews/015/863/623/non_2x/england-premier-league-logo-on-transparent-background-free-vector.jpg",
+    espanola: "https://www.edigitalagency.com.au/wp-content/uploads/La-Liga-logo-red-vertical-PNG-large-size.png",
+    italiana: "https://i.pinimg.com/736x/41/63/76/416376bd5371366136ae7877b01c320d.jpg",
+    alemana: "https://elsrcorchea.com/wp-content/uploads/2023/08/German-Bundesliga-logo1.jpg",
 };
 
 function mostrarLiga(liga) {

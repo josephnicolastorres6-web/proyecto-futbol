@@ -1,32 +1,82 @@
 const modalElement = document.getElementById("modalInfo");
 const modal = new bootstrap.Modal(modalElement);
 
-/* LOGIN */
+/* ------------------------------
+   SHA-256 PARA PROTEGER CONTRASEÑAS
+--------------------------------*/
+async function hashPassword(pass) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(pass);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+/* ------------------------------
+   VALIDAR CONTRASEÑA SEGURA
+--------------------------------*/
+function validarPassword(pass) {
+    const reglas = [
+        { test: /.{8,}/, msg: "Debe tener mínimo 8 caracteres." },
+        { test: /[A-Z]/, msg: "Debe contener una mayúscula." },
+        { test: /[0-9]/, msg: "Debe contener un número." },
+        { test: /[^A-Za-z0-9]/, msg: "Debe contener un símbolo." }
+    ];
+
+    for (let r of reglas) {
+        if (!r.test.test(pass)) return r.msg;
+    }
+    return null;
+}
+
+/* LOGIN – VISTAS */
 function mostrarRegistro() {
     loginContainer.style.display = "none";
     registroContainer.style.display = "block";
 }
+
 function mostrarLogin() {
     registroContainer.style.display = "none";
     loginContainer.style.display = "block";
 }
 
-function registrar() {
-    if (!regUser.value || !regPass.value) return alert("Completa todo.");
+/* ------------------------------
+       REGISTRAR (MEJORADO)
+--------------------------------*/
+async function registrar() {
+    if (!regUser.value || !regPass.value)
+        return alert("Completa todo.");
+
+    const error = validarPassword(regPass.value);
+    if (error) return alert("Contraseña inválida: " + error);
+
+    const passHash = await hashPassword(regPass.value);
+
     localStorage.setItem("user", regUser.value);
-    localStorage.setItem("pass", regPass.value);
+    localStorage.setItem("passHash", passHash);
+
     alert("Cuenta creada");
     mostrarLogin();
 }
 
-function login() {
-    if (
-        loginUser.value === localStorage.getItem("user") &&
-        loginPass.value === localStorage.getItem("pass")
-    ) {
+/* ------------------------------
+       LOGIN (MEJORADO)
+--------------------------------*/
+async function login() {
+    const storedUser = localStorage.getItem("user");
+    const storedHash = localStorage.getItem("passHash");
+
+    if (!storedUser || !storedHash)
+        return alert("No existe ninguna cuenta registrada.");
+
+    const passHash = await hashPassword(loginPass.value);
+
+    if (loginUser.value === storedUser && passHash === storedHash) {
         loginContainer.style.display = "none";
         app.style.display = "block";
-    } else alert("Error en datos");
+    } else {
+        alert("Error en datos");
+    }
 }
 
 function logout() {
@@ -64,7 +114,7 @@ function cargarNoticias() {
 }
 cargarNoticias();
 
-/* CAMISETAS CON MÁS INFORMACIÓN */
+/* CAMISETAS */
 const camisetas = {
     retro: [
         {
@@ -78,8 +128,6 @@ const camisetas = {
         { nombre: "Manchester unite 1999 ", img: "https://television.com.ar/wp-content/uploads/2024/04/99-1.jpg", dato: "Año de la histórica temporada de Del Piero" },
         { nombre: "Juventus 1998", img: "https://i.ytimg.com/vi/d8xUKzoIjEg/sddefault.jpg", dato: "Año de la histórica temporada de Del Piero" },
     ],
-    
-    
     
     actual: [
         {
@@ -133,7 +181,6 @@ const ligas = {
     alemana: ["Bayern vs Dortmund", "Leipzig vs Leverkusen", "Bayer vs Wolfsburg"],
 };
 
-/* NUEVO CAMPO PARA LOGOS DE LIGAS */
 const logosLigas = {
     inglesa: "https://static.vecteezy.com/system/resources/previews/015/863/623/non_2x/england-premier-league-logo-on-transparent-background-free-vector.jpg",
     espanola: "https://www.edigitalagency.com.au/wp-content/uploads/La-Liga-logo-red-vertical-PNG-large-size.png",
@@ -142,25 +189,24 @@ const logosLigas = {
 };
 
 function mostrarLiga(liga) {
-    info(ligas[liga].join("<br>") + `<br><br><img src="${logosLigas[liga]}" class="w-50 mt-2">`);
+    info(
+        ligas[liga].join("<br>") +
+        `<br><br><img src="${logosLigas[liga]}" class="w-50 mt-2">`
+    );
 }
 
 /* MODAL GENERAL */
 function info(texto) {
     modalTexto.innerHTML = texto;
 
-    // Mostrar capa desenfocada (solo fondo)
     document.getElementById("blurOverlay").style.display = "block";
-
     modal.show();
 }
 
-/* Cerrar modal tocando afuera */
 modalElement.addEventListener("click", function (e) {
     if (e.target === modalElement) modal.hide();
 });
 
-/* Quitar desenfoque al cerrar */
 modalElement.addEventListener("hidden.bs.modal", () => {
     document.getElementById("blurOverlay").style.display = "none";
 });
